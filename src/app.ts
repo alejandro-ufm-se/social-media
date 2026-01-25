@@ -4,6 +4,8 @@ import express from 'express';
 const app: express.Application = express();
 const port: number = 3000;
 
+app.use(express.json())
+
 
 // app.METHOD(PATH, HANDLER)
 app.get('/', (_req, _res) => {
@@ -16,6 +18,16 @@ app.post('/login', (_req, _res) => {
     let password: any = _req.query.password;
     console.log(email);
     console.log(password);
+
+    _res.send(`Received email ${email} and password ${password}`);
+})
+
+// Body example
+app.post('/v2/login', (_req, _res) => {
+    let body: Record<string, any> = _req.body;
+    
+    let email: string = body['email'];
+    let password: string = body['password'];
 
     _res.send(`Received email ${email} and password ${password}`);
 })
