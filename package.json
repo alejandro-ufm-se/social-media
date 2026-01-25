@@ -1,0 +1,31 @@
+{
+  "name": "social-media",
+  "version": "1.0.0",
+  "description": "Social Media Project",
+  "homepage": "https://github.com/alejandro-ufm-se/social-media#readme",
+  "bugs": {
+    "url": "https://github.com/alejandro-ufm-se/social-media/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alejandro-ufm-se/social-media.git"
+  },
+  "license": "ISC",
+  "author": "Jose & Juanfer",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node ./dist/app.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
