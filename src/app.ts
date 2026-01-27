@@ -1,4 +1,5 @@
 import express from 'express';
+import userRoutes from './routes/user-routes.js';
 
 
 const app: express.Application = express();
@@ -8,10 +9,16 @@ app.use(express.json())
 
 
 // app.METHOD(PATH, HANDLER)
-app.get('/', (_req, _res) => {
+app.get('/', (uno, _res) => {
     // TODO: code
     _res.send('Hello World!');
 })
+
+interface LoginModel {
+    email: string;
+    password: string;
+    name: string;
+}
 
 // Query params example
 app.post('/login', (_req, _res) => {
@@ -25,19 +32,22 @@ app.post('/login', (_req, _res) => {
 
 // Body example
 app.post('/v2/login', (_req, _res) => {
-    let body: Record<string, any> = _req.body;
+    let body: LoginModel = _req.body;
 
     let email: string = body['email'];
     let password: string = body['password'];
+    let name: string = body['name'];
 
-    _res.send(`Received email ${email} and password ${password}`);
+    _res.send(`Received email ${email} and password ${password}, my name is ${name}`);
 })
 
 // Path params example
-app.get('/name/:name', (_req, _res) => {
+app.get('/name/:example', (_req, _res) => {
     console.log(_req.params);
-    _res.send(`Hi my name is ${_req.params.name}`);
+    _res.send(`Hi my name is ${_req.params.example}`);
 })
+
+app.use('/user', userRoutes);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
