@@ -1,11 +1,24 @@
 import express from 'express';
 import userRoutes from './routes/user-routes.js';
+import config from './config/config.js';
+import type { Request, Response, NextFunction } from 'express';
 
 
 const app: express.Application = express();
-const port: number = 3000;
+const port: number = config.port;
 
 app.use(express.json())
+
+app.use((_req, _res, _next) => {
+    console.log(`Time ${Date.now()}!`);
+    console.log('Hello from the app level middleware');
+    _next();
+}, 
+(_req, _res, _next) => {
+    console.log(`Hola! desde el segundo middleware ${Date.now()}!`);
+    _next();
+}
+);
 
 
 // app.METHOD(PATH, HANDLER)
@@ -49,6 +62,16 @@ app.get('/name/:example', (_req, _res) => {
 
 app.use('/user', userRoutes);
 
+
+// Error Middleware
+app.use((_err: Error, _req: Request, _res: Response, _next: NextFunction) => {
+    console.error(_err.stack);
+    _res.status(400).send("Something broke!");
+});
+
+
 app.listen(port, () => {
+    console.log(config.dbUserName);
+    console.log(config.dbPassword);
     console.log(`Example app listening on port ${port}`);
 })

@@ -7,6 +7,11 @@ const userRoutes = Router();
 const userService = new UserService();
 const userController = new UserController(userService);
 
+userRoutes.use((_req, _res, _next) => {
+    console.log("Hello from user routes");
+    _next();
+});
+
 userRoutes.post("/v1/register", userController.registerUser);
 
 export default userRoutes;
