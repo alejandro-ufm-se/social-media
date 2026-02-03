@@ -66,7 +66,7 @@ app.use('/user', userRoutes);
 // Error Middleware
 app.use((_err: Error, _req: Request, _res: Response, _next: NextFunction) => {
     console.error(_err.stack);
-    _res.status(400).send("Something broke!");
+    _res.status(500).send(_err.message);
 });
 
 
