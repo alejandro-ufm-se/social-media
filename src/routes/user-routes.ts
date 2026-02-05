@@ -14,4 +14,6 @@ userRoutes.use((_req, _res, _next) => {
 
 userRoutes.post("/v1/register", userController.registerUser);
 
+userRoutes.get("/v1/simulation", userController.simulate);
+
 export default userRoutes;

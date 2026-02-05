@@ -2,6 +2,7 @@ import express from 'express';
 import userRoutes from './routes/user-routes.js';
 import config from './config/config.js';
 import type { Request, Response, NextFunction } from 'express';
+import { ServiceException } from './errors/serviceException.js';
 
 
 const app: express.Application = express();
@@ -19,8 +20,16 @@ app.use('/user', userRoutes);
 
 // Error Middleware
 app.use((_err: Error, _req: Request, _res: Response, _next: NextFunction) => {
-    console.error(_err.stack);
-    _res.status(500).send(_err.message);
+    if (_err instanceof ServiceException) {
+        let exception = _err as ServiceException;
+        _res.status(400).json({
+            "Code" : exception.errorCode,
+            "Message" : exception.message
+        })
+    }
+    else {
+        _res.status(500).send(_err.stack);
+    }
 });
 
 app.listen(port, () => {

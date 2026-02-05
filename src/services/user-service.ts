@@ -1,5 +1,6 @@
 import { error } from 'node:console';
 import type { User } from '../models/user.js';
+import { UserErrors } from '../errors/errors.js';
 
 export class UserService {
     private PasswordLength : number = 8;
@@ -9,15 +10,8 @@ export class UserService {
         console.log("Validating password for user.");
 
         const password = userToRegister.password;
-        if (!password) {
-            console.log("Password is empty");
-            throw new Error("Empty Password");
-        }
-
-        if (password.length < this.PasswordLength)
-        {
-            console.log("Password length is too small");
-            throw new Error("Password length");
+        if (!password || password.length < this.PasswordLength) {
+            throw UserErrors.InvalidPassword;
         }
 
         console.log("Sending data to DB");
@@ -29,5 +23,14 @@ export class UserService {
             role: 1,
             friends: []
         }
+    }
+
+    simulation(delay: number, identifier: number) : Promise<string> {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log(`Completed Task ${identifier}`);
+                resolve("Completed Task!!");
+            }, delay);
+        })
     }
 }
