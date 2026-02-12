@@ -1,45 +1,74 @@
-import { error } from 'node:console';
-import type { User } from '../models/user.js';
+import type { User, CreateUserDto, UpdateUserDto } from '../models/user.js';
 import { UserErrors } from '../errors/errors.js';
 import type { UserRepository } from '../repositories/user-repository.js';
 
 export class UserService {
-    private PasswordLength : number = 8;
+    private readonly PasswordLength: number = 8;
 
     constructor(private readonly userRepository: UserRepository) { }
 
-    async registerUserAsync(userToRegister: User) : Promise<User> {
-        console.log("Starting to register a user!");
-        console.log("Validating password for user.");
+    async createUserAsync(dto: CreateUserDto): Promise<User> {
+        if (!dto.name || !dto.email || !dto.password) {
+            throw UserErrors.MissingRequiredFields;
+        }
 
-        const password = userToRegister.password;
-        if (!password || password.length < this.PasswordLength) {
+        if (dto.password.length < this.PasswordLength) {
             throw UserErrors.InvalidPassword;
         }
 
-        let user : User = {
-            email : userToRegister.email,
-            name: userToRegister.name,
-            password: "encrypted",
-            id: 100,
-            role: 1,
-            friends: []
-        };
+        const existing = await this.userRepository.getUserByEmailAsync(dto.email);
+        if (existing) {
+            throw UserErrors.UserAlreadyExists;
+        }
 
-        let promise1 = this.userRepository.saveUserAsync(user);
-        let promise2 = this.userRepository.saveRelationshipAsync(user);
-        const [promise1Result, promise2Result] = await Promise.all([promise1, promise2]);
-        console.log(promise1Result);
-        console.log(promise2Result);
+        const user = await this.userRepository.createUserAsync({
+            email: dto.email,
+            name: dto.name,
+            password: dto.password,
+            role: dto.role ?? 1,
+        });
+
         return user;
     }
 
-    simulation(delay: number, identifier: number) : Promise<string> {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                console.log(`Completed Task ${identifier}`);
-                resolve("Completed Task!!");
-            }, delay);
-        })
+    async getAllUsersAsync(): Promise<User[]> {
+        return this.userRepository.getAllUsersAsync();
+    }
+
+    async getUserByIdAsync(id: number): Promise<User> {
+        const user = await this.userRepository.getUserByIdAsync(id);
+        if (!user) {
+            throw UserErrors.UserNotFound;
+        }
+        return user;
+    }
+
+    async updateUserAsync(id: number, dto: UpdateUserDto): Promise<User> {
+        const existing = await this.userRepository.getUserByIdAsync(id);
+        if (!existing) {
+            throw UserErrors.UserNotFound;
+        }
+
+        if (dto.password !== undefined && dto.password.length < this.PasswordLength) {
+            throw UserErrors.InvalidPassword;
+        }
+
+        if (dto.email !== undefined) {
+            const emailOwner = await this.userRepository.getUserByEmailAsync(dto.email);
+            if (emailOwner && emailOwner.id !== id) {
+                throw UserErrors.UserAlreadyExists;
+            }
+        }
+
+        const updated = await this.userRepository.updateUserAsync(id, dto);
+        return updated as User;
+    }
+
+    async deleteUserAsync(id: number): Promise<void> {
+        const existing = await this.userRepository.getUserByIdAsync(id);
+        if (!existing) {
+            throw UserErrors.UserNotFound;
+        }
+        await this.userRepository.deleteUserAsync(id);
     }
 }

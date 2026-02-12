@@ -5,7 +5,7 @@ import { UserRepository } from "../repositories/user-repository.js";
 
 const userRoutes = Router();
 
-const userRepository = new UserRepository();
+export const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
@@ -14,8 +14,10 @@ userRoutes.use((_req, _res, _next) => {
     _next();
 });
 
-userRoutes.post("/v1/register", userController.registerUser);
-
-userRoutes.get("/v1/simulation", userController.simulate);
+userRoutes.post("/v1/users", userController.createUser);
+userRoutes.get("/v1/users", userController.getAllUsers);
+userRoutes.get("/v1/users/:id", userController.getUserById);
+userRoutes.patch("/v1/users/:id", userController.updateUser);
+userRoutes.delete("/v1/users/:id", userController.deleteUser);
 
 export default userRoutes;
