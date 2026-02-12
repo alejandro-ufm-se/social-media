@@ -34,4 +34,6 @@ app.use((_err: Error, _req: Request, _res: Response, _next: NextFunction) => {
 
 app.listen(port, () => {
     console.log(`Social media app listening on port ${port}`);
-})
+});
+
+export default app;
