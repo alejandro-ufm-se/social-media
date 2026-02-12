@@ -14,7 +14,7 @@ userRoutes.use((_req, _res, _next) => {
     _next();
 });
 
-userRoutes.post("/v1/users", userController.createUser);
+userRoutes.post("/v1/register", userController.createUser);
 userRoutes.get("/v1/users", userController.getAllUsers);
 userRoutes.get("/v1/users/:id", userController.getUserById);
 userRoutes.patch("/v1/users/:id", userController.updateUser);
