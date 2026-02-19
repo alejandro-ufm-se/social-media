@@ -10,7 +10,7 @@ describe('UserRegister', () => {
         "name": "Jose"
     })
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(201);
     expect(response.body).toBeDefined();
     expect(response.body).toHaveProperty("email");
     expect(response.body.email).toBe(
@@ -34,4 +34,3 @@ describe('PasswordValidation', () => {
     expect(response.body.Message).toBe("User entered an invalid password.");
   });
 });
-

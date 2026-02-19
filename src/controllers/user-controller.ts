@@ -1,4 +1,4 @@
-import type { User } from "../models/user.js";
+import type { CreateUserDto, UpdateUserDto } from "../models/user.js";
 import type { UserService } from "../services/user-service.js";
 import type { Request, Response } from "express";
 
@@ -7,21 +7,33 @@ export class UserController {
         console.log("Initialized user controller");
     }
 
-    registerUser = async (_req : Request, _res : Response) => {
-        let user : User = _req.body;
-        let registeredUser = await this.userService.registerUserAsync(user);
+    createUser = async (req: Request, res: Response): Promise<void> => {
+        const dto: CreateUserDto = req.body;
+        const user = await this.userService.createUserAsync(dto);
+        res.status(201).json(user);
+    };
 
-        _res.json(registeredUser);
-    }
+    getAllUsers = async (_req: Request, res: Response): Promise<void> => {
+        const users = await this.userService.getAllUsersAsync();
+        res.json(users);
+    };
 
-    simulate = (_req : Request, _res : Response) => {
-        this.userService.simulation(5000, 1).then(() => {
-            this.userService.simulation(2000, 2);
-        }).then(() => {
-            console.log("Task 1 Done");
-        }).finally(() => {
-            console.log("Task 2 Done");
-            _res.send("SUCCESS");
-        })
-    }
+    getUserById = async (req: Request, res: Response): Promise<void> => {
+        const id = Number(req.params.id);
+        const user = await this.userService.getUserByIdAsync(id);
+        res.json(user);
+    };
+
+    updateUser = async (req: Request, res: Response): Promise<void> => {
+        const id = Number(req.params.id);
+        const dto: UpdateUserDto = req.body;
+        const updated = await this.userService.updateUserAsync(id, dto);
+        res.json(updated);
+    };
+
+    deleteUser = async (req: Request, res: Response): Promise<void> => {
+        const id = Number(req.params.id);
+        await this.userService.deleteUserAsync(id);
+        res.status(204).send();
+    };
 }
