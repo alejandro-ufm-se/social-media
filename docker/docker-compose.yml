@@ -10,4 +10,9 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: app
+      MYSQL_DATABASE: social-media
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
