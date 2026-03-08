@@ -1,0 +1,140 @@
+{
+  "info": {
+    "name": "Social Media API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "userId",
+      "value": "1"
+    },
+    {
+      "key": "friendId",
+      "value": "2"
+    }
+  ],
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alice@example.com\",\n  \"name\": \"Alice\",\n  \"password\": \"password123\",\n  \"role\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/v1/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "v1", "register"]
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/user/v1/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "v1", "users"]
+            }
+          }
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/user/v1/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "v1", "users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alice Updated\",\n  \"email\": \"alice.updated@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/v1/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "v1", "users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/user/v1/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "v1", "users", "{{userId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Friend",
+      "item": [
+        {
+          "name": "Add Friend",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/friend/v1/users/{{userId}}/friends/{{friendId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["friend", "v1", "users", "{{userId}}", "friends", "{{friendId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Friends",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/friend/v1/users/{{userId}}/friends",
+              "host": ["{{baseUrl}}"],
+              "path": ["friend", "v1", "users", "{{userId}}", "friends"]
+            }
+          }
+        },
+        {
+          "name": "Remove Friend",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/friend/v1/users/{{userId}}/friends/{{friendId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["friend", "v1", "users", "{{userId}}", "friends", "{{friendId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
