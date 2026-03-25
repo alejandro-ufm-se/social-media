@@ -4,6 +4,7 @@ import { prisma } from "../lib/prisma.js";
 export class UserRepository
 {
     createUserAsync = async (user: Omit<User, "id" | "friends">): Promise<User> => {
+        console.log(user.password);
         const created = await prisma.user.create({
             data: {
                 email: user.email,

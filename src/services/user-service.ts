@@ -24,15 +24,11 @@ export class UserService {
         }
 
         // Hash password
-        let hashedPassword = '';
-        bcrypt.hash(dto.password, 10, (err: Error | undefined, hash: string) => {
-            if (err) {
-                throw UserErrors.FailedHashingPassword;
-            }
-            hashedPassword = hash;
-        });
+        const hashedPassword = await bcrypt.hash(dto.password, 10);
+        return await this.finishUserCreationAsync(dto, hashedPassword);
+    }
 
-
+    async finishUserCreationAsync(dto: CreateUserDto, hashedPassword: string) {
         const user = await this.userRepository.createUserAsync({
             email: dto.email,
             name: dto.name,
