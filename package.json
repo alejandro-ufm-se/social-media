@@ -16,7 +16,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc",
     "start": "node ./dist/app.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'tsx' src/app.ts"
   },
