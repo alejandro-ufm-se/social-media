@@ -15,6 +15,9 @@ export class UserErrors {
 
     public static readonly MissingRequiredFields : ServiceException =
         new ServiceException(1004, "Missing required fields: name, email, and password.", 400);
+
+    public static readonly FailedHashingPassword : ServiceException =
+        new ServiceException(1005, "Failed hashing password.", 500);
 }
 
 export class RelationshipErrors {

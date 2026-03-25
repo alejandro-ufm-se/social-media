@@ -1,13 +1,15 @@
-import type { User, CreateUserDto, UpdateUserDto } from '../models/user.js';
+import type { User, CreateUserDto, UpdateUserDto, CreateUserResponse } from '../models/user.js';
 import { UserErrors } from '../errors/errors.js';
 import type { UserRepository } from '../repositories/user-repository.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export class UserService {
     private readonly PasswordLength: number = 8;
 
     constructor(private readonly userRepository: UserRepository) { }
 
-    async createUserAsync(dto: CreateUserDto): Promise<User> {
+    async createUserAsync(dto: CreateUserDto): Promise<CreateUserResponse> {
         if (!dto.name || !dto.email || !dto.password) {
             throw UserErrors.MissingRequiredFields;
         }
@@ -21,15 +23,45 @@ export class UserService {
             throw UserErrors.UserAlreadyExists;
         }
 
+        // Hash password
+        let hashedPassword = '';
+        bcrypt.hash(dto.password, 10, (err: Error | undefined, hash: string) => {
+            if (err) {
+                throw UserErrors.FailedHashingPassword;
+            }
+            hashedPassword = hash;
+        });
+
+
         const user = await this.userRepository.createUserAsync({
             email: dto.email,
             name: dto.name,
-            password: dto.password,
+            password: hashedPassword,
             role: dto.role ?? 1,
         });
 
-        return user;
+        // generate token
+        let authToken = this.generateToken(user.id, user.email);
+
+        let response : CreateUserResponse = {
+            id: user.id,
+            email: user.email,
+            authToken: authToken
+        };
+        return response;
     }
+
+    generateToken(userId: number, email: string): string {
+        const jwtSecretKey = process.env.JWT_SECRET_KEY as string;
+
+        const payload = {
+            sub: userId,
+            email
+        };
+
+        return jwt.sign(payload, jwtSecretKey, { expiresIn: '7d' });
+    };
+
 
     async getAllUsersAsync(): Promise<User[]> {
         return this.userRepository.getAllUsersAsync();

@@ -14,6 +14,12 @@ export interface CreateUserDto {
     role?: number;
 }
 
+export interface CreateUserResponse {
+    id: number;
+    email: string;
+    authToken: string;
+}
+
 export interface UpdateUserDto {
     email?: string;
     name?: string;
