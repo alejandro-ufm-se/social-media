@@ -20,6 +20,17 @@ export interface CreateUserResponse {
     authToken: string;
 }
 
+export interface LoginDto {
+    email: string;
+    password: string;
+}
+
+export interface LoginResponse {
+    id: number;
+    email: string;
+    authToken: string;
+}
+
 export interface UpdateUserDto {
     email?: string;
     name?: string;

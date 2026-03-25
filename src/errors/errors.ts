@@ -18,6 +18,9 @@ export class UserErrors {
 
     public static readonly FailedHashingPassword : ServiceException =
         new ServiceException(1005, "Failed hashing password.", 500);
+
+    public static readonly InvalidCredentials : ServiceException =
+        new ServiceException(1006, "Invalid email or password.", 401);
 }
 
 export class RelationshipErrors {
