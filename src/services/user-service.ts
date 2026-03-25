@@ -1,7 +1,7 @@
 import type { User, CreateUserDto, UpdateUserDto, CreateUserResponse } from '../models/user.js';
 import { UserErrors } from '../errors/errors.js';
 import type { UserRepository } from '../repositories/user-repository.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export class UserService {

@@ -18,7 +18,7 @@ jobs:
             cd /var/www/social-media
             git stash
             git pull origin main
-            npm ci --omit=dev
+            npm ci
             npm run build
             sudo systemctl restart myapp
             systemctl is-active --quiet myapp && echo "Service running" || exit 1
