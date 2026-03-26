@@ -45,7 +45,13 @@ jobs:
             sudo cp systemd/social-media-api.service /etc/systemd/system/
             sudo systemctl daemon-reload
             cat <<EOF > /var/www/social-media/.env
+            PORT=${{ secrets.PORT }}
             DATABASE_URL=${{ secrets.DATABASE_URL }}
+            DATABASE_USER=${{ secrets.DATABASE_USER }}
+            DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+            DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+            DATABASE_HOST=${{ secrets.DATABASE_HOST }}
+            DATABASE_PORT=${{ secrets.DATABASE_PORT }}
             JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
             EOF
             npx prisma migrate deploy
