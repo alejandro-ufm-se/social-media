@@ -44,6 +44,8 @@ jobs:
             cd /var/www/social-media
             sudo cp systemd/social-media-api.service /etc/systemd/system/
             sudo systemctl daemon-reload
+            export DATABASE_URL="${{ secrets.DATABASE_URL }}"
+            export JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}"
             npx prisma migrate deploy
             sudo systemctl restart social-media-api
             systemctl is-active --quiet social-media-api && echo "Service Running" || exit 1
