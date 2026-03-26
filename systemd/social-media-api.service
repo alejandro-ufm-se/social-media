@@ -5,6 +5,7 @@ After=network.target
 [Service]
 User=ubuntu
 WorkingDirectory=/var/www/social-media
+EnvironmentFile=/var/www/social-media/.env
 ExecStart=/home/ubuntu/.nvm/versions/node/v24.14.1/bin/npm run start
 Restart=always
 
