@@ -1,0 +1,12 @@
+[Unit]
+Description=Social Media API
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/var/www/social-media
+ExecStart=/home/ubuntu/.nvm/versions/node/v24.14.1/bin/npm run start
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
