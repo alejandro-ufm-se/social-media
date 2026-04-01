@@ -2,7 +2,16 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "AllowAccountUsers",
+            "Sid": "PublicReadAccess",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "arn:aws:s3:::BUCKET_NAME/*"
+        },
+        {
+            "Sid": "AllowAccountUsersWrite",
             "Effect": "Allow",
             "Principal": {
                 "AWS": "arn:aws:iam::ACCOUNT_ID:root"
@@ -14,7 +23,7 @@
             ]
         },
         {
-            "Sid": "AllowEC2InstanceRole",
+            "Sid": "AllowEC2InstanceRoleWrite",
             "Effect": "Allow",
             "Principal": {
                 "AWS": "arn:aws:iam::ACCOUNT_ID:role/ROLE_NAME"
@@ -26,10 +35,17 @@
             ]
         },
         {
-            "Sid": "DenyExternalAccess",
+            "Sid": "DenyExternalWrites",
             "Effect": "Deny",
             "Principal": "*",
-            "Action": "s3:*",
+            "Action": [
+                "s3:PutObject",
+                "s3:DeleteObject",
+                "s3:PutBucketPolicy",
+                "s3:DeleteBucket",
+                "s3:PutBucketAcl",
+                "s3:PutObjectAcl"
+            ],
             "Resource": [
                 "arn:aws:s3:::BUCKET_NAME",
                 "arn:aws:s3:::BUCKET_NAME/*"
