@@ -36,4 +36,9 @@ export class UserController {
         await this.userService.deleteUserAsync(id);
         res.status(204).send();
     };
+
+    getUploadUrl = async (req: Request, res: Response): Promise<void> => {
+        const url = await this.userService.getUploadUrl();
+        res.json({ url });
+    };
 }

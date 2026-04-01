@@ -19,5 +19,6 @@ userRoutes.get("/v1/users", userController.getAllUsers);
 userRoutes.get("/v1/users/:id", userController.getUserById);
 userRoutes.patch("/v1/users/:id", userController.updateUser);
 userRoutes.delete("/v1/users/:id", userController.deleteUser);
+userRoutes.get("/v1/upload-url", userController.getUploadUrl)
 
 export default userRoutes;
