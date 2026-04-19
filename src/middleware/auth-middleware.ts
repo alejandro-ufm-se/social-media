@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 const publicPaths = [
     '/auth/v1/login',
     '/user/v1/register',
+    '/health/v1/healthcheck',
 ];
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
