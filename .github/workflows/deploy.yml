@@ -45,6 +45,7 @@ jobs:
             sudo cp systemd/social-media-api.service /etc/systemd/system/
             sudo systemctl daemon-reload
             cat <<EOF > /var/www/social-media/.env
+            NODE_ENV=production
             PORT=${{ secrets.PORT }}
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             DATABASE_USER=${{ secrets.DATABASE_USER }}
