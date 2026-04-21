@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import logger from '../lib/logger.js';
 
 const publicPaths = [
     '/auth/v1/login',
@@ -16,6 +17,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        logger.error('Missing or malformed authorization header', { path: req.path, method: req.method });
         res.status(401).json({ error: 'No token provided' });
         return;
     }
@@ -27,6 +29,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
         jwt.verify(token as string, jwtSecretKey);
         next();
     } catch (error) {
+        logger.error('Invalid token', { path: req.path, method: req.method });
         res.status(401).json({ error: 'Invalid Token' });
     }
 };

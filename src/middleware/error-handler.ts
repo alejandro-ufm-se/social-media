@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { ServiceException } from "../errors/serviceException.js";
+import logger from "../lib/logger.js";
 
 export const errorHandler = (
     err: Error,
@@ -8,6 +9,13 @@ export const errorHandler = (
     _next: NextFunction,
 ): void => {
     if (err instanceof ServiceException) {
+        logger.error('Service exception', {
+            path: _req.path,
+            method: _req.method,
+            errorCode: err.errorCode,
+            httpStatus: err.httpStatus,
+            message: err.message,
+        });
         res.status(err.httpStatus).json({
             Code: err.errorCode,
             Message: err.message,
@@ -15,8 +23,12 @@ export const errorHandler = (
         return;
     }
 
-    // Log the full error server-side for debugging
-    console.error(`[ERROR] ${err.message}`, err.stack);
+    logger.error('Unhandled error', {
+        path: _req.path,
+        method: _req.method,
+        message: err.message,
+        stack: err.stack,
+    });
 
     // Never leak stack traces to the client in production
     const isProduction = process.env.NODE_ENV === "production";

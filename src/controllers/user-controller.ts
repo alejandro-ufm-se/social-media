@@ -1,10 +1,11 @@
 import type { CreateUserDto, UpdateUserDto } from "../models/user.js";
 import type { UserService } from "../services/user-service.js";
 import type { Request, Response } from "express";
+import logger from "../lib/logger.js";
 
 export class UserController {
     constructor(private readonly userService: UserService) {
-        console.log("Initialized user controller");
+        logger.info("Initialized user controller");
     }
 
     createUser = async (req: Request, res: Response): Promise<void> => {

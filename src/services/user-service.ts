@@ -8,6 +8,7 @@ import {
   S3RequestPresigner,
 } from "@aws-sdk/s3-request-presigner";
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import logger from '../lib/logger.js';
 
 export class UserService {
     private readonly PasswordLength: number = 8;
@@ -28,9 +29,10 @@ export class UserService {
             throw UserErrors.UserAlreadyExists;
         }
 
-        // Hash password
         const hashedPassword = await bcrypt.hash(dto.password, 10);
-        return await this.finishUserCreationAsync(dto, hashedPassword);
+        const result = await this.finishUserCreationAsync(dto, hashedPassword);
+        logger.info('User created', { userId: result.id, email: result.email });
+        return result;
     }
 
     async finishUserCreationAsync(dto: CreateUserDto, hashedPassword: string) {
@@ -94,6 +96,7 @@ export class UserService {
         }
 
         const updated = await this.userRepository.updateUserAsync(id, dto);
+        logger.info('User updated', { userId: id });
         return updated as User;
     }
 
@@ -103,6 +106,7 @@ export class UserService {
             throw UserErrors.UserNotFound;
         }
         await this.userRepository.deleteUserAsync(id);
+        logger.info('User deleted', { userId: id });
     }
 
     async getUploadUrl(): Promise<string> {

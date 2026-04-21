@@ -1,11 +1,12 @@
 import type { FriendService } from "../services/friend-service.js";
 import type { Request, Response } from "express";
+import logger from "../lib/logger.js";
 
-export class FriendController 
+export class FriendController
 {
-    constructor(private readonly friendService: FriendService) 
+    constructor(private readonly friendService: FriendService)
     {
-        console.log("Initialized friend controller");
+        logger.info("Initialized friend controller");
     }
 
     addFriend = async (req: Request, res: Response): Promise<void> => {

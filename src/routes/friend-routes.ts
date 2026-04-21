@@ -3,6 +3,7 @@ import { FriendService } from "../services/friend-service.js";
 import { FriendController } from "../controllers/friend-controller.js";
 import { FriendRepository } from "../repositories/friend-repository.js";
 import { userRepository } from "./user-routes.js";
+import logger from "../lib/logger.js";
 
 const friendRoutes = Router();
 
@@ -11,7 +12,7 @@ const friendService = new FriendService(userRepository, friendRepository);
 const friendController = new FriendController(friendService);
 
 friendRoutes.use((_req, _res, _next) => {
-    console.log("Hello from friend routes");
+    logger.info("Incoming request to friend routes", { path: _req.path, method: _req.method });
     _next();
 });
 

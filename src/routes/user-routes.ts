@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UserService } from "../services/user-service.js";
 import { UserController } from "../controllers/user-controller.js";
 import { UserRepository } from "../repositories/user-repository.js";
+import logger from "../lib/logger.js";
 
 const userRoutes = Router();
 
@@ -10,7 +11,7 @@ const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
 userRoutes.use((_req, _res, _next) => {
-    console.log("Hello from user routes");
+    logger.info("Incoming request to user routes", { path: _req.path, method: _req.method });
     _next();
 });
 
