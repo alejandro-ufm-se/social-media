@@ -1,0 +1,42 @@
+{
+    "logs": {
+        "logs_collected": {
+            "files": {
+                "collect_list": [
+                    {
+                        "file_path": "/var/log/social-media/app-*.log",
+                        "log_group_name": "social-media-api",
+                        "log_stream_name": "{instance_id}",
+                        "timezone": "UTC",
+                        "timestamp_format": "%Y-%m-%dT%H:%M:%S"
+                    }
+                ]
+            }
+        }
+    },
+    "metrics": {
+        "namespace": "SocialMedia/System",
+        "metrics_collected": {
+            "mem": {
+                "measurement": [
+                    "mem_used_percent",
+                    "mem_available",
+                    "mem_used"
+                ],
+                "metrics_collection_interval": 60
+            },
+            "disk": {
+                "measurement": [
+                    "disk_used_percent"
+                ],
+                "resources": [
+                    "/"
+                ],
+                "metrics_collection_interval": 60
+            }
+        },
+        "append_dimensions": {
+            "InstanceId": "${aws:InstanceId}"
+        }
+    }
+}
