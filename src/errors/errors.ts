@@ -23,6 +23,26 @@ export class UserErrors {
         new ServiceException(1006, "Invalid email or password.", 401);
 }
 
+export class PostErrors {
+    public static readonly PostNotFound : ServiceException =
+        new ServiceException(3000, "Post not found.", 404);
+
+    public static readonly InvalidDescription : ServiceException =
+        new ServiceException(3001, "Post description is missing or exceeds the maximum length.", 400);
+
+    public static readonly TooManyImages : ServiceException =
+        new ServiceException(3002, "Post exceeds the maximum number of images.", 400);
+
+    public static readonly InvalidImageKey : ServiceException =
+        new ServiceException(3003, "Image key does not belong to the requesting user.", 400);
+
+    public static readonly NotPostOwner : ServiceException =
+        new ServiceException(3004, "User is not the owner of this post.", 403);
+
+    public static readonly Unauthenticated : ServiceException =
+        new ServiceException(3005, "Authenticated user context is missing.", 401);
+}
+
 export class RelationshipErrors {
     public static readonly InexistentUser : ServiceException =
         new ServiceException(2000, "User tried to start relationship with inexistent user.", 404);
