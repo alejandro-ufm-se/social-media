@@ -36,3 +36,11 @@ export class RelationshipErrors {
     public static readonly NotFriends : ServiceException =
         new ServiceException(2003, "These users are not friends.", 400);
 }
+
+export class ExploreErrors {
+    public static readonly MissingQuery : ServiceException =
+        new ServiceException(3000, "Search query is required.", 400);
+
+    public static readonly InvalidLimit : ServiceException =
+        new ServiceException(3001, "Limit must be between 1 and 50.", 400);
+}

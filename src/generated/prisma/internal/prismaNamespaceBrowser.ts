@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  UserAuth: 'UserAuth'
+  UserAuth: 'UserAuth',
+  Post: 'Post'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -88,6 +89,16 @@ export const UserAuthScalarFieldEnum = {
 export type UserAuthScalarFieldEnum = (typeof UserAuthScalarFieldEnum)[keyof typeof UserAuthScalarFieldEnum]
 
 
+export const PostScalarFieldEnum = {
+  id: 'id',
+  authorId: 'authorId',
+  body: 'body',
+  createdAt: 'createdAt'
+} as const
+
+export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -117,4 +128,11 @@ export const UserAuthOrderByRelevanceFieldEnum = {
 } as const
 
 export type UserAuthOrderByRelevanceFieldEnum = (typeof UserAuthOrderByRelevanceFieldEnum)[keyof typeof UserAuthOrderByRelevanceFieldEnum]
+
+
+export const PostOrderByRelevanceFieldEnum = {
+  body: 'body'
+} as const
+
+export type PostOrderByRelevanceFieldEnum = (typeof PostOrderByRelevanceFieldEnum)[keyof typeof PostOrderByRelevanceFieldEnum]
 

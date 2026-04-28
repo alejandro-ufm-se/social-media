@@ -2,6 +2,7 @@ import express from 'express';
 import userRoutes from './routes/user-routes.js';
 import friendRoutes from './routes/friend-routes.js';
 import authRoutes from './routes/auth-routes.js';
+import exploreRoutes from './routes/explore-routes.js';
 import healthRoutes from './routes/health-routes.js';
 import config from './config/config.js';
 import { notFoundHandler } from './middleware/not-found-handler.js';
@@ -23,6 +24,7 @@ app.use('/health', healthRoutes);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/friend', friendRoutes);
+app.use('/explore', exploreRoutes);
 
 // 404 catch-all (after all routes)
 app.use(notFoundHandler);
