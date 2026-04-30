@@ -9,7 +9,7 @@ export const Dumbbell = (p: IconProps) => <svg {...base(p.size||18)} {...p}><pat
 export const Apple = (p: IconProps) => <svg {...base(p.size||18)} {...p}><path d="M12 7c-2 0-3-2-6-2-2 0-4 2-4 6 0 5 4 10 6 10 1 0 2-1 4-1s3 1 4 1c2 0 6-5 6-10 0-4-2-6-4-6-3 0-4 2-6 2Z"/><path d="M12 7c0-2 1-4 3-4"/></svg>;
 export const Spark = (p: IconProps) => <svg {...base(p.size||18)} {...p}><path d="M12 3v4"/><path d="M12 17v4"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="m5.6 5.6 2.8 2.8"/><path d="m15.6 15.6 2.8 2.8"/><path d="m5.6 18.4 2.8-2.8"/><path d="m15.6 8.4 2.8-2.8"/></svg>;
 export const Bookmark = (p: IconProps) => <svg {...base(p.size||16)} {...p}><path d="M6 3h12v18l-6-4-6 4Z"/></svg>;
-export const Heart = (p: IconProps & {filled?: boolean}) => <svg {...base(p.size||16)} fill={p.filled?"currentColor":"none"} {...p}><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>;
+export const Heart = ({filled, ...p}: IconProps & {filled?: boolean}) => <svg {...base(p.size||16)} fill={filled?"currentColor":"none"} {...p}><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>;
 export const Comment = (p: IconProps) => <svg {...base(p.size||16)} {...p}><path d="M21 12a8 8 0 0 1-11.7 7L4 20l1-5.3A8 8 0 1 1 21 12Z"/></svg>;
 export const Share = (p: IconProps) => <svg {...base(p.size||16)} {...p}><path d="M4 12v8h16v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v14"/></svg>;
 export const Plus = (p: IconProps) => <svg {...base(p.size||16)} strokeWidth={2.5} {...p}><path d="M12 5v14"/><path d="M5 12h14"/></svg>;
