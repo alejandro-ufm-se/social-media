@@ -1,9 +1,57 @@
+"use client";
+import { useState } from "react";
+import Background from "@/components/Background";
+import Sidebar from "@/components/Sidebar";
+import Feed from "@/components/Feed";
+import { StreakWidget, TrendingWidget, HydrationWidget, MacrosWidget, CalendarWidget } from "@/components/Widgets";
+import { Avatar } from "@/components/Avatar";
+import * as Icon from "@/components/Icons";
+import { ME, TRENDING, WEEKLY } from "@/lib/data";
+
 export default function Home() {
+  const [active, setActive] = useState("feed");
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-900">
-      <h1 className="text-4xl font-semibold text-zinc-900 dark:text-zinc-50">
-        Hello World! :-)
-      </h1>
-    </div>
+    <>
+      <Background />
+      <div className="app">
+        <header className="topbar">
+          <div className="brand">
+            <div className="logo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0e2a5b" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/>
+                <path d="M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/>
+              </svg>
+            </div>
+            FlowFeed
+          </div>
+          <div className="search">
+            <Icon.Search/>
+            <input placeholder="Search routines, diets, people…"/>
+            <span className="kbd">⌘K</span>
+          </div>
+          <div className="topbar-right">
+            <button className="icon-btn" title="Messages"><Icon.Msg/></button>
+            <button className="icon-btn" title="Notifications"><Icon.Bell/><span className="dot"/></button>
+            <div className="avatar-pill">
+              <Avatar name={ME.name} size={32} online/>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>{ME.name.split(" ")[0]}</span>
+              <Icon.Chev/>
+            </div>
+          </div>
+        </header>
+
+        <div className="layout">
+          <Sidebar active={active} onSelect={setActive} me={ME}/>
+          <Feed me={ME}/>
+          <aside className="rail">
+            <StreakWidget days={24} target={28} weekly={WEEKLY}/>
+            <TrendingWidget items={TRENDING}/>
+            <HydrationWidget/>
+            <MacrosWidget/>
+            <CalendarWidget/>
+          </aside>
+        </div>
+      </div>
+    </>
   );
 }
