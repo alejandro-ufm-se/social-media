@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import userRoutes from './routes/user-routes.js';
 import friendRoutes from './routes/friend-routes.js';
 import authRoutes from './routes/auth-routes.js';
@@ -11,6 +12,9 @@ import logger from './lib/logger.js';
 
 const app: express.Application = express();
 const port: number = config.port;
+
+// CORS
+app.use(cors());
 
 // Built-in middleware
 app.use(express.json());
