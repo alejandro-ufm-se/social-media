@@ -7,9 +7,30 @@ import { StreakWidget, TrendingWidget, HydrationWidget, MacrosWidget, CalendarWi
 import { Avatar } from "@/components/Avatar";
 import * as Icon from "@/components/Icons";
 import { ME, TRENDING, WEEKLY } from "@/lib/data";
+import { BACKEND_URL } from "@/lib/constants";
 
 export default function Home() {
   const [active, setActive] = useState("feed");
+  const [healthResult, setHealthResult] = useState<string>("");
+  const [healthLoading, setHealthLoading] = useState(false);
+
+  const checkHealth = async () => {
+    setHealthLoading(true);
+    setHealthResult("");
+    try {
+      const res = await fetch(`${BACKEND_URL}/health/v1/healthcheck`);
+      const text = await res.text();
+      try {
+        setHealthResult(JSON.stringify(JSON.parse(text), null, 2));
+      } catch {
+        setHealthResult(text);
+      }
+    } catch (err) {
+      setHealthResult(`Error: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setHealthLoading(false);
+    }
+  };
   return (
     <>
       <Background />
@@ -30,6 +51,23 @@ export default function Home() {
             <span className="kbd">⌘K</span>
           </div>
           <div className="topbar-right">
+            <button
+              onClick={checkHealth}
+              disabled={healthLoading}
+              style={{
+                background: "#22c55e",
+                color: "white",
+                border: "none",
+                padding: "8px 16px",
+                borderRadius: 8,
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: healthLoading ? "not-allowed" : "pointer",
+                opacity: healthLoading ? 0.7 : 1,
+              }}
+            >
+              {healthLoading ? "Checking…" : "Check"}
+            </button>
             <button className="icon-btn" title="Messages"><Icon.Msg/></button>
             <button className="icon-btn" title="Notifications"><Icon.Bell/><span className="dot"/></button>
             <div className="avatar-pill">
@@ -39,6 +77,24 @@ export default function Home() {
             </div>
           </div>
         </header>
+
+        {healthResult && (
+          <div
+            style={{
+              margin: "12px 24px 0",
+              padding: 12,
+              background: "rgba(34,197,94,0.1)",
+              border: "1px solid rgba(34,197,94,0.4)",
+              borderRadius: 8,
+              fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+              fontSize: 13,
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+            }}
+          >
+            {healthResult}
+          </div>
+        )}
 
         <div className="layout">
           <Sidebar active={active} onSelect={setActive} me={ME}/>
