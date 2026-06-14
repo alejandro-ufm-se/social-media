@@ -14,16 +14,30 @@ datasource db {
 }
 
 
-model User { 
+model User {
   id    Int      @id @default(autoincrement())
   email String   @unique
   name  String?
   auth  UserAuth?
-} 
+  posts Post[]
+}
 
 model UserAuth {
   userId       Int    @id
   passwordHash String
 
   user User @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  authorId  Int
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+
+  author User @relation(fields: [authorId], references: [id])
+
+  @@index([authorId])
+  @@index([createdAt])
+  @@fulltext([body])
 }
