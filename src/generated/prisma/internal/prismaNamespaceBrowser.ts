@@ -52,7 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  UserAuth: 'UserAuth'
+  UserAuth: 'UserAuth',
+  Post: 'Post',
+  PostImage: 'PostImage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -88,6 +90,28 @@ export const UserAuthScalarFieldEnum = {
 export type UserAuthScalarFieldEnum = (typeof UserAuthScalarFieldEnum)[keyof typeof UserAuthScalarFieldEnum]
 
 
+export const PostScalarFieldEnum = {
+  id: 'id',
+  authorId: 'authorId',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+export const PostImageScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  s3Key: 's3Key',
+  position: 'position',
+  createdAt: 'createdAt'
+} as const
+
+export type PostImageScalarFieldEnum = (typeof PostImageScalarFieldEnum)[keyof typeof PostImageScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -117,4 +141,18 @@ export const UserAuthOrderByRelevanceFieldEnum = {
 } as const
 
 export type UserAuthOrderByRelevanceFieldEnum = (typeof UserAuthOrderByRelevanceFieldEnum)[keyof typeof UserAuthOrderByRelevanceFieldEnum]
+
+
+export const PostOrderByRelevanceFieldEnum = {
+  description: 'description'
+} as const
+
+export type PostOrderByRelevanceFieldEnum = (typeof PostOrderByRelevanceFieldEnum)[keyof typeof PostOrderByRelevanceFieldEnum]
+
+
+export const PostImageOrderByRelevanceFieldEnum = {
+  s3Key: 's3Key'
+} as const
+
+export type PostImageOrderByRelevanceFieldEnum = (typeof PostImageOrderByRelevanceFieldEnum)[keyof typeof PostImageOrderByRelevanceFieldEnum]
 

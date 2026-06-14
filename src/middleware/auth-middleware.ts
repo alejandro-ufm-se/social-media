@@ -8,6 +8,11 @@ const publicPaths = [
     '/health/v1/healthcheck',
 ];
 
+interface JwtPayload {
+    sub: number;
+    email: string;
+}
+
 export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
     if (publicPaths.includes(req.path)) {
         next();
@@ -26,7 +31,8 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
 
     try {
         const jwtSecretKey = process.env.JWT_SECRET_KEY as string;
-        jwt.verify(token as string, jwtSecretKey);
+        const payload = jwt.verify(token as string, jwtSecretKey) as unknown as JwtPayload;
+        req.user = { id: Number(payload.sub), email: payload.email };
         next();
     } catch (error) {
         logger.error('Invalid token', { path: req.path, method: req.method });

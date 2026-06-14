@@ -3,11 +3,7 @@ import { UserErrors } from '../errors/errors.js';
 import type { UserRepository } from '../repositories/user-repository.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import {
-  getSignedUrl,
-  S3RequestPresigner,
-} from "@aws-sdk/s3-request-presigner";
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { getPutObjectSignedUrl } from '../lib/s3.js';
 import logger from '../lib/logger.js';
 
 export class UserService {
@@ -110,9 +106,6 @@ export class UserService {
     }
 
     async getUploadUrl(): Promise<string> {
-        const client = new S3Client({ region: 'us-east-1' });
-        const command = new PutObjectCommand({ Bucket: 'social-media-ufm', Key: 'test/test.txt' });
-        // Expiration is in seconds
-        return getSignedUrl(client, command, { expiresIn: 120 });
+        return getPutObjectSignedUrl('test/test.txt');
     }
 }

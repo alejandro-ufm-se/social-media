@@ -14,16 +14,40 @@ datasource db {
 }
 
 
-model User { 
+model User {
   id    Int      @id @default(autoincrement())
   email String   @unique
   name  String?
   auth  UserAuth?
-} 
+  posts Post[]
+}
 
 model UserAuth {
   userId       Int    @id
   passwordHash String
 
   user User @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id          Int         @id @default(autoincrement())
+  authorId    Int
+  description String      @db.Text
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  author      User        @relation(fields: [authorId], references: [id])
+  images      PostImage[]
+
+  @@index([authorId, createdAt])
+}
+
+model PostImage {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  s3Key     String
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
 }
